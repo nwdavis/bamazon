@@ -19,7 +19,7 @@ connection.connect(function(err) {
 function start(){
     connection.query("SELECT * FROM products", function(err, res){
         if (err) throw err;
-
+        //printing items
         for (i = 0; i < res.length; i++){
             
             console.log("-----------------");
@@ -29,7 +29,7 @@ function start(){
             console.log("-----------------");
         }
         
-
+        //prompting user for selection
         inquirer.prompt([
             {
                 name: "itemChoice",
@@ -70,21 +70,36 @@ function start(){
             }
 
         ]).then(function(answer){
-
+            //checks inventory and places order if inventory is sufficient
             inventoryCheck(answer.itemChoice - 1, answer.itemQuant);
             
         });
 
         function inventoryCheck(item, quantity){
             if (res[item].stock_quantity < quantity){
-                console.log(`Sorry, we don't have enough of ${res[item].product_name}.`)
+                console.log(`Sorry, we don't have enough ${res[item].product_name}.`)
             } else {
-                console.log(`${res[item].product_name} has been purchased.`)
+                connection.query(
+                    "UPDATE products SET ? WHERE ?",
+                    [
+                        {
+                            stock_quantity: res[item].stock_quantity-quantity
+                        },
+                        {
+                            item_id: item+1
+                        }
+                    ],
+                    function(err) {
+                        if (err) throw err;
+                        console.log(`${res[item].product_name} has been purchased.`);
+                        start();
+                    }
+                );
+
             }
         }
 
-
     });
-
+    
 }
 
