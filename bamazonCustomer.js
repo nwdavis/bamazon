@@ -91,7 +91,8 @@ function start(){
                     ],
                     function(err) {
                         if (err) throw err;
-                        console.log(`${res[item].product_name} has been purchased.`);
+                        var totalCost = res[item].price * quantity
+                        console.log(`${res[item].product_name} has been purchased. You spent ${totalCost}.`);
                         start();
                     }
                 );
@@ -100,6 +101,6 @@ function start(){
         }
 
     });
-    
+
 }
 
