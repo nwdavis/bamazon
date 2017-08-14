@@ -92,15 +92,25 @@ function start(){
                     function(err) {
                         if (err) throw err;
                         var totalCost = res[item].price * quantity
-                        console.log(`${res[item].product_name} has been purchased. You spent ${totalCost}.`);
-                        start();
+                        console.log(`${res[item].product_name} has been purchased. You spent $${totalCost}.`);
+                        inquirer.prompt([
+                            {
+                                name: "again",
+                                type: "confirm",
+                                message: "Would you like to make another purchase?"
+                            }
+                        ]).then(function(answer){
+                            if (answer){
+                                start();
+                            }else{
+                                console.log("Thank you for shopping with us!");
+                                return
+                            }
+                        });   
                     }
                 );
-
             }
         }
-
     });
-
 }
 
