@@ -70,9 +70,10 @@ function start(){
             }
 
         ]).then(function(answer){
+            if (confirm){
             //checks inventory and places order if inventory is sufficient
-            inventoryCheck(answer.itemChoice - 1, answer.itemQuant);
-            
+                inventoryCheck(answer.itemChoice - 1, answer.itemQuant);
+            }
         });
 
         function inventoryCheck(item, quantity){
