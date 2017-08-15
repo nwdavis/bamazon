@@ -26,7 +26,7 @@ connection.query("SELECT * FROM products", function(err, res){
             viewProducts();           
         }else if(ans.options === "View Low Inventory"){
             lowInventory();            
-        }else if(ans.options === "Add To Inventory"){
+        }else if(ans.options === "Add to Inventory"){
             addToInventory();           
         }else if(ans.options === "Add New Product"){
             addProduct();            
@@ -69,6 +69,7 @@ connection.query("SELECT * FROM products", function(err, res){
 
     //allows manager to add to inventory
     function addToInventory(){
+        
         inquirer.prompt([
             {
                 name: "itemToIncrease",
@@ -116,7 +117,7 @@ connection.query("SELECT * FROM products", function(err, res){
                             stock_quantity: res[ans.itemToIncrease].stock_quantity+ans.itemQuant
                         },
                         {
-                            item_id: item+1
+                            item_id: ans.itemToIncrease
                         }
                     ],
                     function(err) {
