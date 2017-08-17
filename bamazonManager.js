@@ -23,9 +23,11 @@ connection.query("SELECT * FROM products", function(err, res){
     ]).then(function(ans){
         
         if (ans.options === "View Products for Sale"){
-            viewProducts();           
+            viewProducts();
+            start();         
         }else if(ans.options === "View Low Inventory"){
-            lowInventory();            
+            lowInventory();
+            start();          
         }else if(ans.options === "Add to Inventory"){
             addToInventory();           
         }else if(ans.options === "Add New Product"){
@@ -58,7 +60,7 @@ connection.query("SELECT * FROM products", function(err, res){
         //printing items
         for (i = 0; i < res.length; i++){
             if (res[i].stock_quantity < 5){
-                counter++;
+                
                 console.log("-----------------");
                 console.log(`There are less than 5 ${res[i].product_name} remaining in inventory.`);
                 console.log("-----------------");
@@ -114,7 +116,7 @@ connection.query("SELECT * FROM products", function(err, res){
                     "UPDATE products SET ? WHERE ?",
                     [
                         {
-                            stock_quantity: res[ans.itemToIncrease].stock_quantity+ans.itemQuant
+                            stock_quantity: res[ans.itemToIncrease].stock_quantity += ans.itemQuant
                         },
                         {
                             item_id: ans.itemToIncrease
@@ -123,6 +125,7 @@ connection.query("SELECT * FROM products", function(err, res){
                     function(err) {
                         if (err) throw err;
                         console.log(`${res[ans.itemToIncrease].product_name} has been increased.`);
+                        start();
                     }
                 );
             }
@@ -194,6 +197,7 @@ connection.query("SELECT * FROM products", function(err, res){
                     function(err) {
                         if (err) throw err;
                         console.log(`${ans.itemToAdd} has been added.`);
+                        start();
                     }
                 );
             }else{

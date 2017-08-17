@@ -100,12 +100,12 @@ function start(){
                                 type: "confirm",
                                 message: "Would you like to make another purchase?"
                             }
-                        ]).then(function(answer){
-                            if (answer){
+                        ]).then(function(ans){
+                            
+                            if (ans.again){
                                 start();
-                            }else{
-                                console.log("Thank you for shopping with us!");
-                                return
+                            }else {
+                                console.log("Thank you for shopping with us!")
                             }
                         });   
                     }
